@@ -1,4 +1,4 @@
-package ma.fstt.microservice3.controller;
+package ma.fstt.microservice3admin.controller;
 
 
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class MessageRestController {
     @GetMapping("/{msg}")
     public String Service3(@PathVariable String msg){
 
-        return "Microservice 3 : "+ msg;
+        return "Microservice 3 AFTER DOCKERFILE: "+ msg;
     }
 
 }
