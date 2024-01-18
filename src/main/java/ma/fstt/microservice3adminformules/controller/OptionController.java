@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/service3")
+@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/formule")
 public class OptionController {
 
     @Autowired

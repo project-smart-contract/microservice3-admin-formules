@@ -12,25 +12,25 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/service3")
+@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/formule")
 public class FormuleController {
 
     @Autowired
     private FormuleService formuleService;
 
-    @PostMapping("/formule/ajouter")
+    @PostMapping("/ajouter")
     public ResponseEntity<Formule> addFormule(@RequestBody Map<String, Object> payload) {
         Formule savedFormule = formuleService.addFormule(payload);
         return ResponseEntity.created(URI.create("/formules/" + savedFormule.getId_formule())).body(savedFormule);
     }
 
-    @GetMapping("/formule")
+    @GetMapping("")
     public ResponseEntity<List<Formule>> listFormules() {
         List<Formule> formuleList = formuleService.getAllFormules();
         return ResponseEntity.ok(formuleList);
     }
 
-    @GetMapping("/formule/{formuleId}")
+    @GetMapping("/{formuleId}")
     public ResponseEntity<Formule> getFormuleById(@PathVariable Long formuleId) {
         Formule formule = formuleService.getFormuleById(formuleId);
         if (formule != null) {
@@ -40,7 +40,7 @@ public class FormuleController {
         }
     }
 
-    @DeleteMapping("/formule/{formuleId}")
+    @DeleteMapping("/delete/{formuleId}")
     public ResponseEntity<Void> deleteFormuleById(@PathVariable Long formuleId) {
         formuleService.deleteFormuleById(formuleId);
         return ResponseEntity.noContent().build();
