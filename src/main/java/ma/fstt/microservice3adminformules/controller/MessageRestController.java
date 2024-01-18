@@ -1,7 +1,9 @@
-package ma.fstt.microservice3admin.controller;
+package ma.fstt.microservice3adminformules.controller;
 
 
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.persistence.*;
 
 @RestController
 @RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/service3")
@@ -15,10 +17,10 @@ public class MessageRestController {
         return "Hello : "+ message;
     }
 
-    @GetMapping("/{msg}")
-    public String Service3(@PathVariable String msg){
-
-        return "Microservice 3 AFTER DOCKERFILE: "+ msg;
-    }
+//    @GetMapping("/{msg}")
+//    public String Service3(@PathVariable String msg){
+//
+//        return "Microservice 3 AFTER DOCKERFILE: "+ msg;
+//    }
 
 }
