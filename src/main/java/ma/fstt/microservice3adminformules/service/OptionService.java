@@ -10,4 +10,6 @@ public interface OptionService {
     public Option addOption(Map<String, Object> payload);
 
     public List<Option> getAllOptions();
+    public Option updateOption(Long optionId, Map<String, Object> payload);
+    public void deleteOptionById(Long optionId);
 }

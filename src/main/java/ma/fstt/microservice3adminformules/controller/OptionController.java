@@ -29,4 +29,20 @@ public class OptionController {
         List<Option> optionList = optionService.getAllOptions();
         return ResponseEntity.ok(optionList);
     }
+
+    @PutMapping("/option/update/{optionId}")
+    public ResponseEntity<Option> updateOption(@PathVariable Long optionId, @RequestBody Map<String, Object> payload) {
+        Option updatedOption = optionService.updateOption(optionId, payload);
+        if (updatedOption != null) {
+            return ResponseEntity.ok(updatedOption);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/option/delete/{optionId}")
+    public ResponseEntity<Void> deleteOptionById(@PathVariable Long optionId) {
+        optionService.deleteOptionById(optionId);
+        return ResponseEntity.noContent().build();
+    }
 }

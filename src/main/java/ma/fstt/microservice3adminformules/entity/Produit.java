@@ -4,32 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name = "option")
+@Table(name = "produit")
 
 @Getter
 @Setter
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class Option {
+public class Produit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_option;
-
+    private Long id_produit;
     private String titre;
     private String description;
-    private boolean isObligatory;
+    private String typeProduit ; // "PARTICULIER" ou bien "ENTREPRISE";
 
-    private Double montantGarantie;
-    private Double franchise;
-    private Double prixOption;
 
-    @ManyToMany(mappedBy = "options")
+    @OneToMany(mappedBy = "produit")
     @JsonIgnore
-    private List<Formule> formules;
+    Collection<Formule> formules;
 
 }

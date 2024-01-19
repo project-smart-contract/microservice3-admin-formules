@@ -24,10 +24,21 @@ public class FormuleController {
         return ResponseEntity.created(URI.create("/formules/" + savedFormule.getId_formule())).body(savedFormule);
     }
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello amina";
+    }
+
     @GetMapping("")
     public ResponseEntity<List<Formule>> listFormules() {
         List<Formule> formuleList = formuleService.getAllFormules();
         return ResponseEntity.ok(formuleList);
+    }
+
+    @GetMapping("/typeProduit/{produitId}")
+    public ResponseEntity<List<Formule>> getFormulesByProduitId(@PathVariable Long produitId) {
+        List<Formule> formuleListByProduit = formuleService.getFormulesByProduitId(produitId);
+        return ResponseEntity.ok(formuleListByProduit);
     }
 
     @GetMapping("/{formuleId}")
@@ -39,6 +50,18 @@ public class FormuleController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/update/{formuleId}")
+    public ResponseEntity<Formule> updateFormule(@PathVariable Long formuleId, @RequestBody Map<String, Object> payload) {
+        Formule updatedFormule = formuleService.updateFormule(formuleId, payload);
+        if (updatedFormule != null) {
+            return ResponseEntity.ok(updatedFormule);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
     @DeleteMapping("/delete/{formuleId}")
     public ResponseEntity<Void> deleteFormuleById(@PathVariable Long formuleId) {
