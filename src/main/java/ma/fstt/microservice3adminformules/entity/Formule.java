@@ -26,6 +26,7 @@ public class Formule {
     private String titre;
     private String description;
     private String images;
+    private boolean isNew;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "formules_options")

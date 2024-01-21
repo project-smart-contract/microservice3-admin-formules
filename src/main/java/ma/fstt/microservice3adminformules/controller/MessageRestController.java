@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.persistence.*;
 
 @RestController
-@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/service3")
+@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET} , path = "/formule")
 
 public class MessageRestController {
 

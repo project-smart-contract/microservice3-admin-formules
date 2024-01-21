@@ -32,8 +32,10 @@ public class FormuleServiceImp implements FormuleService{
     public Formule addFormule(Map<String, Object> payload){
         String titre = (String) payload.get("titre");
         String description = (String) payload.get("description");
+        Boolean isNew = (Boolean) payload.get("isNew");
+
         List<String> images = (List<String>) payload.get("images"); // Liste d'images
-//        Long produitId = (Long) payload.get("produit_id");
+
         Long produitId = ((Number) payload.get("produit_id")).longValue();
 
 
@@ -48,6 +50,7 @@ public class FormuleServiceImp implements FormuleService{
         Formule formule = new Formule();
         formule.setTitre(titre);
         formule.setDescription(description);
+        formule.setNew(isNew);
         formule.setOptions(options);
         formule.setAvantages(avantages);
 
@@ -99,6 +102,11 @@ public class FormuleServiceImp implements FormuleService{
             List<String> newImages = (List<String>) payload.get("images");
             existingFormule.setImagesList(newImages);
         }
+
+        if (payload.containsKey("isNew")) {
+            existingFormule.setNew((Boolean) payload.get("isNew"));
+        }
+
         if (payload.containsKey("options")) {
             List<Integer> optionIds = (List<Integer>) payload.get("options");
             List<Long> optionIdsLong = optionIds.stream().map(Long::valueOf).collect(Collectors.toList());
@@ -119,6 +127,7 @@ public class FormuleServiceImp implements FormuleService{
                     .orElseThrow(() -> new IllegalArgumentException("Produit non trouvé avec l'ID : " + produitId));
             existingFormule.setProduit(produit);
         }
+
 
         return formuleRepository.save(existingFormule);
     }
