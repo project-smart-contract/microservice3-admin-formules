@@ -7,7 +7,8 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "option")
+@Table(name = "optionFormule")
+//@Table(name = "`option`")
 
 @Getter
 @Setter
