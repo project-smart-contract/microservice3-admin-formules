@@ -2,13 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: microservice3-admin-formules
-  labels:
-    app: microservice3-admin-formules
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app : microservice3-admin-formules
+      app: microservice3-admin-formules
   template:
     metadata:
       labels:
@@ -17,19 +15,18 @@ spec:
       containers:
         - name: microservice3-admin-formules
           image: aminabakkali/microservice3-admin-formules
-          imagePullPolicy: Always
           ports:
             - containerPort: 8084
-
 ---
-
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name:  user-service-svc
+  name: microservice3-admin-formules
 spec:
+  type: LoadBalancer
   selector:
-    app:  microservice3-admin-formules
+    app: microservice3-admin-formules
   ports:
-    - port:  8080
-      targetPort:  8084
+    - protocol: TCP
+      port: 80
+      targetPort: 8084
