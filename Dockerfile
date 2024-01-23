@@ -2,6 +2,10 @@
 # Fetching latest version of Java
 FROM openjdk:20-jdk-slim
 
+# Install dnsutils (includes dig and nslookup)
+RUN apt-get update && apt-get install -y dnsutils
+
+
 # Setting up work directory
 WORKDIR /app
 
