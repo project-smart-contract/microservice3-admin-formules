@@ -25,7 +25,7 @@ public class Produit {
 
 
     @OneToMany(mappedBy = "produit")
-    @JsonIgnore
+//    @JsonIgnore
     Collection<Formule> formules;
 
 }

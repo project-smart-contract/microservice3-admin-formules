@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,5 +24,12 @@ public class ProduitController {
     public ResponseEntity<Produit> addProduit(@RequestBody Map<String, Object> payload) {
         Produit savedProduit = produitService.addProduit(payload);
         return ResponseEntity.created(URI.create("/produits/" + savedProduit.getId_produit())).body(savedProduit);
+    }
+
+
+    @GetMapping("/produit")
+    public ResponseEntity<List<Produit>> listFormules() {
+        List<Produit> produitList = produitService.getAllProduits();
+        return ResponseEntity.ok(produitList);
     }
 }

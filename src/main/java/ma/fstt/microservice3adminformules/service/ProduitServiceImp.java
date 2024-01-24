@@ -33,4 +33,13 @@ public class ProduitServiceImp implements ProduitService {
 
         return produitRepository.save(produit);
     }
+
+
+
+    @Override
+    public List<Produit> getAllProduits() {
+        List<Produit> produits = produitRepository.findAll();
+
+        return produits;
+    }
 }

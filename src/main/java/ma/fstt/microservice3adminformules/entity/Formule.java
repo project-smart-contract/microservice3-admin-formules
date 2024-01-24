@@ -38,6 +38,7 @@ public class Formule {
 
     @ManyToOne
     @JoinColumn(name = "produit_id")
+    @JsonIgnore
     private Produit produit;
 
     public List<String> getImagesList() {
