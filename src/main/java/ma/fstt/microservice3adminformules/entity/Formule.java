@@ -27,6 +27,7 @@ public class Formule {
     private String description;
     private String images;
     private boolean isNew;
+    private String slug;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "formules_options")
@@ -39,6 +40,7 @@ public class Formule {
     @ManyToOne
     @JoinColumn(name = "produit_id")
     private Produit produit;
+
 
     public List<String> getImagesList() {
         return Arrays.asList(this.images.split(","));
