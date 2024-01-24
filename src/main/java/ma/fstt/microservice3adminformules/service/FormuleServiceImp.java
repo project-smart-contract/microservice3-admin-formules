@@ -9,7 +9,10 @@ import ma.fstt.microservice3adminformules.repository.FormuleRepository;
 import ma.fstt.microservice3adminformules.repository.OptionRepository;
 import ma.fstt.microservice3adminformules.repository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,14 @@ public class FormuleServiceImp implements FormuleService{
 
     @Autowired
     private ProduitRepository produitRepository;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+
+
+    @Autowired
+    private ObjectMapper objectMapper; // pour convertir l'objet en JSON
 
     @Override
     public Formule addFormule(Map<String, Object> payload){
@@ -80,10 +91,28 @@ public class FormuleServiceImp implements FormuleService{
         return formules;
     }
 
-    @Override
-    public Formule getFormuleById(Long formuleId) {
-        return formuleRepository.findById(formuleId).orElse(null);
+//    @Override
+//    public Formule getFormuleById(Long formuleId) {
+//
+//        return formuleRepository.findById(formuleId).orElse(null);
+//    }
+@Override
+public Formule getFormuleById(Long formuleId) {
+    Formule formule = formuleRepository.findById(formuleId).orElse(null);
+
+    // Convertir l'objet Formule en JSON
+    String formuleJson;
+    try {
+        formuleJson = objectMapper.writeValueAsString(formule);
+    } catch (JsonProcessingException e) {
+        throw new RuntimeException("Erreur lors de la conversion de la formule en JSON", e);
     }
+
+    // Envoyer le JSON via Kafka
+    kafkaTemplate.send("formule-info", formuleJson);
+
+    return formule;
+}
 
     @Override
     public Formule updateFormule(Long formuleId, Map<String, Object> payload) {

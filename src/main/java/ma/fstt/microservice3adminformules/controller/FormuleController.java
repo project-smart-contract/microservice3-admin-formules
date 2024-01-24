@@ -2,6 +2,8 @@ package ma.fstt.microservice3adminformules.controller;
 
 
 import ma.fstt.microservice3adminformules.entity.Formule;
+import ma.fstt.microservice3adminformules.entity.Produit;
+import ma.fstt.microservice3adminformules.repository.ProduitRepository;
 import ma.fstt.microservice3adminformules.service.FormuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ public class FormuleController {
 
     @Autowired
     private FormuleService formuleService;
+    @Autowired
+    private ProduitRepository produitRepository ;
 
     @PostMapping("/ajouter")
     public ResponseEntity<Formule> addFormule(@RequestBody Map<String, Object> payload) {
@@ -49,6 +53,23 @@ public class FormuleController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{idProduit}/{idFormule}")
+    public Formule getFormule(@PathVariable Long idProduit, @PathVariable Long idFormule) {
+        // Vérifiez d'abord si le produit avec l'ID donné existe
+        Produit produit = produitRepository.findById(idProduit)
+                .orElseThrow(() -> new IllegalArgumentException("Produit non trouvé avec l'ID : " + idProduit));
+
+        // Ensuite, obtenez la formule avec l'ID donné
+        Formule formule = formuleService.getFormuleById(idFormule);
+
+        // Vérifiez si la formule appartient au produit
+//        if (!formule.getProduit().equals(produit)) {
+//            throw new IllegalArgumentException("La formule avec l'ID : " + idFormule + " n'appartient pas au produit avec l'ID : " + idProduit);
+//        }
+
+        return formule;
     }
 
     @PutMapping("/update/{formuleId}")
