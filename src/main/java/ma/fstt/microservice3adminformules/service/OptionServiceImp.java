@@ -44,6 +44,16 @@ public class OptionServiceImp implements OptionService{
         option.setFranchise(franchise);
         option.setPrixOption(prixOption);
 
+        String formuleJson;
+        try {
+            formuleJson = objectMapper.writeValueAsString(option);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Erreur lors de la conversion de la formule en JSON", e);
+        }
+
+        // Envoyer le JSON via Kafka
+        kafkaTemplate.send("option-info", formuleJson);
+
         return optionRepository.save(option);
     }
 

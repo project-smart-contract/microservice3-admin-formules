@@ -70,6 +70,15 @@ public class FormuleServiceImp implements FormuleService {
         formule.setProduit(produit);
         formule.setImagesList(images);
 
+        String formuleJson;
+        try {
+            formuleJson = objectMapper.writeValueAsString(formule);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Erreur lors de la conversion de la formule en JSON", e);
+        }
+
+        // Envoyer le JSON via Kafka
+        kafkaTemplate.send("formule-info", formuleJson);
         return formuleRepository.save(formule);
 
     }
@@ -87,14 +96,9 @@ public class FormuleServiceImp implements FormuleService {
     public List<Formule> getAllFormules() {
         List<Formule> formules = formuleRepository.findAll();
 
+
         return formules;
     }
-
-    //    @Override
-//    public Formule getFormuleById(Long formuleId) {
-//
-//        return formuleRepository.findById(formuleId).orElse(null);
-//    }
     @Override
     public Formule getFormuleById(Long formuleId) {
         Formule formule = formuleRepository.findById(formuleId).orElse(null);

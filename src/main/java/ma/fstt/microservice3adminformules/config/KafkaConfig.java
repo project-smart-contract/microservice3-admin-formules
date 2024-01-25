@@ -23,4 +23,10 @@ public class KafkaConfig {
                 .name(AppConstant.OPTION_INFO)
                 .build();
     }
+    @Bean
+    public NewTopic produitTopic() {
+        return TopicBuilder
+                .name(AppConstant.PRODUIT_INFO)
+                .build();
+    }
 }
