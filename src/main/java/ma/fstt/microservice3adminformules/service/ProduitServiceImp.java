@@ -20,8 +20,21 @@ public class ProduitServiceImp implements ProduitService {
     @Autowired
     private ProduitRepository produitRepository;
 
+   @Autowired
+    private FormuleService formuleService;
+
+    // ...
+
     @Override
-    public Produit addProduit(Map<String, Object> payload){
+    public List<Produit> getAllProduits() {
+        List<Produit> produits = produitRepository.findAll();
+        produits.forEach(produit -> produit.setFormules(formuleService.getFormulesByProduitId(produit.getId_produit())));
+        return produits;
+    }
+
+
+    @Override
+    public Produit addProduit(Map<String, Object> payload) {
         String titre = (String) payload.get("titre");
         String description = (String) payload.get("description");
         String typeProduit = (String) payload.get("typeProduit");
