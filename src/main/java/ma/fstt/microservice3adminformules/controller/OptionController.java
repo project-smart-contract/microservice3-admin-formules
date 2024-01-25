@@ -1,6 +1,7 @@
 package ma.fstt.microservice3adminformules.controller;
 
 
+import ma.fstt.microservice3adminformules.entity.Formule;
 import ma.fstt.microservice3adminformules.entity.Option;
 import ma.fstt.microservice3adminformules.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,24 @@ public class OptionController {
     @PostMapping("/option/ajouter")
     public ResponseEntity<Option> addOption(@RequestBody Map<String, Object> payload) {
         Option savedOption = optionService.addOption(payload);
-        return ResponseEntity.created(URI.create("/options/" + savedOption.getId_option())).body(savedOption);
+        return ResponseEntity.created(URI.create("/options/" + savedOption.getId())).body(savedOption);
+//        return ResponseEntity.created(URI.create("/options/" + savedOption.getId_option())).body(savedOption);
     }
 
     @GetMapping("/option")
     public ResponseEntity<List<Option>> listOptions() {
         List<Option> optionList = optionService.getAllOptions();
         return ResponseEntity.ok(optionList);
+    }
+
+    @GetMapping("/option/{optionId}")
+    public ResponseEntity<Option> getOptionById(@PathVariable Long optionId) {
+        Option option = optionService.getOptionById(optionId);
+        if (option != null) {
+            return ResponseEntity.ok(option);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/option/update/{optionId}")

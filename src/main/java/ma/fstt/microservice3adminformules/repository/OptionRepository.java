@@ -10,4 +10,5 @@ public interface OptionRepository extends JpaRepository<Option, Long> {
     List<Option> findAllByFormulesContaining(Formule formule);
 
     List<Option> findAllByFormulesAvantagesContaining(Formule formule);
+
 }

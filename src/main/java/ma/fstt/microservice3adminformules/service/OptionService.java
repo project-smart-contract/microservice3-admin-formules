@@ -12,4 +12,6 @@ public interface OptionService {
     public List<Option> getAllOptions();
     public Option updateOption(Long optionId, Map<String, Object> payload);
     public void deleteOptionById(Long optionId);
+    public Option getOptionById(Long optionId);
+
 }

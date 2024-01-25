@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FormuleServiceImp implements FormuleService{
+public class FormuleServiceImp implements FormuleService {
 
     @Autowired
     private FormuleRepository formuleRepository;
@@ -35,12 +35,11 @@ public class FormuleServiceImp implements FormuleService{
     private KafkaTemplate<String, String> kafkaTemplate;
 
 
-
     @Autowired
     private ObjectMapper objectMapper; // pour convertir l'objet en JSON
 
     @Override
-    public Formule addFormule(Map<String, Object> payload){
+    public Formule addFormule(Map<String, Object> payload) {
         String titre = (String) payload.get("titre");
         String description = (String) payload.get("description");
         Boolean isNew = (Boolean) payload.get("isNew");
@@ -91,28 +90,28 @@ public class FormuleServiceImp implements FormuleService{
         return formules;
     }
 
-//    @Override
+    //    @Override
 //    public Formule getFormuleById(Long formuleId) {
 //
 //        return formuleRepository.findById(formuleId).orElse(null);
 //    }
-@Override
-public Formule getFormuleById(Long formuleId) {
-    Formule formule = formuleRepository.findById(formuleId).orElse(null);
+    @Override
+    public Formule getFormuleById(Long formuleId) {
+        Formule formule = formuleRepository.findById(formuleId).orElse(null);
 
-    // Convertir l'objet Formule en JSON
-    String formuleJson;
-    try {
-        formuleJson = objectMapper.writeValueAsString(formule);
-    } catch (JsonProcessingException e) {
-        throw new RuntimeException("Erreur lors de la conversion de la formule en JSON", e);
+        // Convertir l'objet Formule en JSON
+        String formuleJson;
+        try {
+            formuleJson = objectMapper.writeValueAsString(formule);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Erreur lors de la conversion de la formule en JSON", e);
+        }
+
+        // Envoyer le JSON via Kafka
+        kafkaTemplate.send("formule-info", formuleJson);
+
+        return formule;
     }
-
-    // Envoyer le JSON via Kafka
-    kafkaTemplate.send("formule-info", formuleJson);
-
-    return formule;
-}
 
     @Override
     public Formule updateFormule(Long formuleId, Map<String, Object> payload) {
